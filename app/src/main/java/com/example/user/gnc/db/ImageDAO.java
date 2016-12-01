@@ -22,23 +22,22 @@ public class ImageDAO extends SQLiteOpenHelper{
     public void onCreate(SQLiteDatabase db) {
         Log.d(TAG, "image_info 테이블 생성");
         db.execSQL("create table image_info (x int, y int, size int, path varchar(200));");
+        insert();//풀 후 첫 포팅 후 삭제
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         Log.d(TAG, "image_info 테이블 호출");
+        db.execSQL("drop table image_info");//풀 후 첫 포팅 후 삭제
+        onCreate(db);//풀 후 첫 포팅 후 삭제
     }
 
-    public void insert(Image image){
+    public void insert(){
 
         SQLiteDatabase db = getWritableDatabase();
-
-        int x = image.getX();
-        int y = image.getY();
-        int size = image.getSize();
-        String path = image.getPath();
         Log.d(TAG, "imageDAO insert 실행");
-        db.execSQL("insert into image_info (x, y, size, path) values ("+x+", "+y+", "+size+", '"+path+"')");
+        db.execSQL("insert into image_info (x, y, size, path) values (0, 0, 0, '')");
+        db.close();
         Log.d(TAG, "imageDAO insert 종료");
 
     }

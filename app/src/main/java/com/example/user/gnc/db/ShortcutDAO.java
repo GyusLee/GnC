@@ -19,10 +19,23 @@ public class ShortcutDAO extends SQLiteOpenHelper{
     public void onCreate(SQLiteDatabase db) {
         Log.d(TAG, "shortcut 테이블 생성");
         db.execSQL("create table shortcut (short_cut int, path varchar(200), method int);");
+        insert();   //풀 후 첫 포팅 후 삭제
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         Log.d(TAG, "shortcut 테이블 호출");
+        db.execSQL("drop table shortcut");//풀 후 첫 포팅 후 삭제
+        onCreate(db);//풀 후 첫 포팅 후 삭제
+    }
+
+    public void insert(){
+        SQLiteDatabase db = getWritableDatabase();
+        db.execSQL("insert into shortcut ( short_cut) values (1)");
+        db.execSQL("insert into shortcut ( short_cut) values (2)");
+        db.execSQL("insert into shortcut ( short_cut) values (3)");
+        db.execSQL("insert into shortcut ( short_cut) values (4)");
+        db.execSQL("insert into shortcut ( short_cut) values (5)");
+        db.close();
     }
 }
