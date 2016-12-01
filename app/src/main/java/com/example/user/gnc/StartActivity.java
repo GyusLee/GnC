@@ -375,14 +375,12 @@ public class StartActivity extends Service {
                         public void onClick(View view) {
                             if (windowManager != null) {
                                 windowManager.removeView(sub_li1);
+                                windowManager.removeView(txt_turn);
                                 stopSelf();
                             }
                             if (windowManager != null) {
                                 windowManager.removeView(sub_li2);
-                                stopSelf();
-                            }
-                            if (windowManager != null) {
-                                windowManager.removeView(sub_li3);
+                                windowManager.removeView(txt_setting);
                                 stopSelf();
                             }
                             windowManager.removeView(bli);
@@ -415,9 +413,6 @@ public class StartActivity extends Service {
                         @Override
                         public void onClick(View view) {
                             Toast.makeText(StartActivity.this, "1번 클릭", Toast.LENGTH_SHORT).show();
-                            Intent settingIntent = new Intent(StartActivity.this, SettingActivity.class);
-                            settingIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            startActivity(settingIntent);
 
                             if (windowManager != null) {
                                 windowManager.removeView(sub_li1);
@@ -459,7 +454,13 @@ public class StartActivity extends Service {
                     sub_li2.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            Toast.makeText(StartActivity.this, "2번 클릭", Toast.LENGTH_SHORT).show();
+                            /*--- 2번째 버튼 클릭 했을시 SettingActivity로 전환 */
+                            Intent settingIntent = new Intent(StartActivity.this, SettingActivity.class);
+                            settingIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(settingIntent);
+
+
+
                             if (windowManager != null) {
                                 windowManager.removeView(sub_li1);
                                 windowManager.removeView(txt_turn);
