@@ -37,6 +37,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class StartActivity extends Service {
@@ -56,7 +57,8 @@ public class StartActivity extends Service {
     RelativeLayout copyright;
     //RelativeLayout layout_start;
     WindowManager.LayoutParams params,params2,params3,params4;
-
+    TextView txt_setting;
+    TextView txt_turn;
     WindowManager windowManager;
     Boolean longClickOn = false;
     static final int FIRST_X = 350;
@@ -380,14 +382,12 @@ public class StartActivity extends Service {
                         public void onClick(View view) {
                             if (windowManager != null) {
                                 windowManager.removeView(sub_li1);
+                                windowManager.removeView(txt_turn);
                                 stopSelf();
                             }
                             if (windowManager != null) {
                                 windowManager.removeView(sub_li2);
-                                stopSelf();
-                            }
-                            if (windowManager != null) {
-                                windowManager.removeView(sub_li3);
+                                windowManager.removeView(txt_setting);
                                 stopSelf();
                             }
                             windowManager.removeView(bli);
@@ -396,16 +396,23 @@ public class StartActivity extends Service {
                     });
 
                     sub_li1 = new LinearLayout(StartActivity.this);
-
+                    txt_turn=new TextView(StartActivity.this);
                     LinearLayout.LayoutParams sub_liParameters1 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
                     sub_li1.setBackgroundColor(Color.argb(66, 255, 0, 0));
                     sub_li1.setLayoutParams(sub_liParameters1);
 
-                    WindowManager.LayoutParams sub_parameters1 = new WindowManager.LayoutParams(300, 150, WindowManager.LayoutParams.TYPE_PHONE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSLUCENT);
+                    txt_turn.setText("종료");
+
+                    WindowManager.LayoutParams sub_parameters1 = new WindowManager.LayoutParams(150, 150, WindowManager.LayoutParams.TYPE_PHONE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSLUCENT);
+                    WindowManager.LayoutParams txt_turn_parameters = new WindowManager.LayoutParams(75, 75, WindowManager.LayoutParams.TYPE_PHONE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSLUCENT);
 
                     sub_parameters1.x = iconX;
                     sub_parameters1.y = iconY - 200;
+                    txt_turn_parameters.y=sub_parameters1.y;
+                    txt_turn_parameters.x=sub_parameters1.x-150;
 
+                    sub_li1.setBackgroundResource(R.drawable.turn_on);
+                    windowManager.addView(txt_turn,txt_turn_parameters);
                     windowManager.addView(sub_li1, sub_parameters1);
 
                     sub_li1.setOnClickListener(new View.OnClickListener() {
@@ -413,22 +420,18 @@ public class StartActivity extends Service {
                         @Override
                         public void onClick(View view) {
                             Toast.makeText(StartActivity.this, "1번 클릭", Toast.LENGTH_SHORT).show();
-                            Intent settingIntent = new Intent(StartActivity.this, SettingActivity.class);
-                            settingIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            startActivity(settingIntent);
 
                             if (windowManager != null) {
                                 windowManager.removeView(sub_li1);
+                                windowManager.removeView(txt_turn);
                                 stopSelf();
                             }
                             if (windowManager != null) {
                                 windowManager.removeView(sub_li2);
+                                windowManager.removeView(txt_setting);
                                 stopSelf();
                             }
-                            if (windowManager != null) {
-                                windowManager.removeView(sub_li3);
-                                stopSelf();
-                            }
+
                             windowManager.removeView(bli);
                             stopSelf();
                         }
@@ -437,32 +440,42 @@ public class StartActivity extends Service {
 
                     windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
                     sub_li2 = new LinearLayout(StartActivity.this);
-
+                    txt_setting=new TextView(StartActivity.this);
+                    txt_setting.setText("설정");
                     LinearLayout.LayoutParams sub_liParameters2 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
                     sub_li2.setBackgroundColor(Color.argb(66, 0, 255, 0));
                     sub_li2.setLayoutParams(sub_liParameters2);
 
-                    WindowManager.LayoutParams sub_parameters2 = new WindowManager.LayoutParams(300, 150, WindowManager.LayoutParams.TYPE_PHONE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSLUCENT);
+                    WindowManager.LayoutParams sub_parameters2 = new WindowManager.LayoutParams(150, 150, WindowManager.LayoutParams.TYPE_PHONE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSLUCENT);
+                    WindowManager.LayoutParams txt_setting_parameters = new WindowManager.LayoutParams(75, 75, WindowManager.LayoutParams.TYPE_PHONE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSLUCENT);
 
                     sub_parameters2.x = iconX;
                     sub_parameters2.y = iconY - 400;
 
+                    txt_setting_parameters.y=sub_parameters2.y;
+                    txt_setting_parameters.x=sub_parameters2.x-150;
+                    sub_li2.setBackgroundResource(R.drawable.setting);
+                    windowManager.addView(txt_setting,txt_setting_parameters);
                     windowManager.addView(sub_li2, sub_parameters2);
 
                     sub_li2.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            Toast.makeText(StartActivity.this, "2번 클릭", Toast.LENGTH_SHORT).show();
+                            /*--- 2번째 버튼 클릭 했을시 SettingActivity로 전환 */
+                            Intent settingIntent = new Intent(StartActivity.this, SettingActivity.class);
+                            settingIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(settingIntent);
+
+
+
                             if (windowManager != null) {
                                 windowManager.removeView(sub_li1);
+                                windowManager.removeView(txt_turn);
                                 stopSelf();
                             }
                             if (windowManager != null) {
                                 windowManager.removeView(sub_li2);
-                                stopSelf();
-                            }
-                            if (windowManager != null) {
-                                windowManager.removeView(sub_li3);
+                                windowManager.removeView(txt_setting);
                                 stopSelf();
                             }
 
@@ -471,40 +484,6 @@ public class StartActivity extends Service {
                         }
                     });
 
-
-                    sub_li3 = new LinearLayout(StartActivity.this);
-
-                    LinearLayout.LayoutParams sub_liParameters3 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-                    sub_li3.setBackgroundColor(Color.argb(66, 0, 0, 255));
-                    sub_li3.setLayoutParams(sub_liParameters3);
-
-                    WindowManager.LayoutParams sub_parameters3 = new WindowManager.LayoutParams(300, 150, WindowManager.LayoutParams.TYPE_PHONE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSLUCENT);
-
-                    sub_parameters3.x = iconX;
-                    sub_parameters3.y = iconY - 600;
-
-                    windowManager.addView(sub_li3, sub_parameters3);
-
-                    sub_li3.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            Toast.makeText(StartActivity.this, "3번 클릭", Toast.LENGTH_SHORT).show();
-                            if (windowManager != null) {
-                                windowManager.removeView(sub_li1);
-                                stopSelf();
-                            }
-                            if (windowManager != null) {
-                                windowManager.removeView(sub_li2);
-                                stopSelf();
-                            }
-                            if (windowManager != null) {
-                                windowManager.removeView(sub_li3);
-                                stopSelf();
-                            }
-                            windowManager.removeView(bli);
-                            stopSelf();
-                        }
-                    });
                     return super.onSingleTapConfirmed(e);
                 }
             };

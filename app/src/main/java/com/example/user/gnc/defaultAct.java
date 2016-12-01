@@ -15,6 +15,9 @@ import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.user.gnc.db.ImageDAO;
+import com.example.user.gnc.db.ShortcutDAO;
+
 /**
  * Created by Jusung on 2016. 11. 29..
  */
@@ -22,12 +25,17 @@ import android.widget.Toast;
 public class defaultAct extends Activity {
     String TAG;
     static final int WINDOW_ALERT_REQUEST = 1;
+    public static ImageDAO imageDAO;
+    public static ShortcutDAO shortcutDAO;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         TAG = this.getClass().getName();
+
+        imageDAO = new ImageDAO(this, "image_info.db", null, 1);
+        shortcutDAO = new ShortcutDAO(this, "shortcut.db", null, 1);
 
         //권한 주기
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -38,7 +46,6 @@ public class defaultAct extends Activity {
                 Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + getPackageName()));
                 startActivityForResult(intent, WINDOW_ALERT_REQUEST);
             } else {
-                Log.d(TAG, "하이else");
                 startService(new Intent(this, StartActivity.class));
             }
         } else {
