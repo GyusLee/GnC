@@ -1,19 +1,26 @@
 package com.example.user.gnc;
 
+import android.Manifest;
 import android.animation.LayoutTransition;
 import android.app.Service;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PixelFormat;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -340,12 +347,12 @@ public class StartActivity extends Service {
                 @Override
                 public boolean onDoubleTap(MotionEvent e) {
                     Toast.makeText(StartActivity.this, "더블클릭", Toast.LENGTH_SHORT).show();
+                    callPhone("010-9123-1709");
                     return super.onDoubleTap(e);
                 }
 
                 @Override
                 public boolean onDoubleTapEvent(MotionEvent e) {
-
                     return super.onDoubleTapEvent(e);
                 }
 
@@ -631,6 +638,92 @@ public class StartActivity extends Service {
             mGestureDetector = new GestureDetector(this, mOnSimpleOnGestureListener);
         }
         return START_NOT_STICKY;
+    }
+
+    /*전화 permission*/
+    public void callPhone(String phoneNumber) {
+        Log.d(TAG, "전화걸기 시작");
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            //권한 체크
+            int permissionResult = checkSelfPermission(Manifest.permission.CALL_PHONE);
+            Log.d(TAG, Integer.toString(permissionResult));
+            Log.d(TAG, Integer.toString(PackageManager.PERMISSION_DENIED));
+
+            if (permissionResult == PackageManager.PERMISSION_DENIED) {
+                //권한이 없다면
+                Log.d(TAG, Boolean.toString(defaultAct.defaultAct.shouldShowRequestPermissionRationale(Manifest.permission.CALL_PHONE)));
+
+                if (defaultAct.defaultAct.shouldShowRequestPermissionRationale(Manifest.permission.CALL_PHONE)) {
+                    //권한을 한번이라도 거부한 적이 있는지 검사
+                    //있다면 트루 없다면 폴스
+                    AlertDialog.Builder dialog = new AlertDialog.Builder(defaultAct.defaultAct);
+                    dialog.setTitle("전화 걸기 권한 요청")
+                            .setMessage("전화를 걸기위한 권한이 필요합니다.")
+                            .setPositiveButton("승인", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                        defaultAct.defaultAct.requestPermissions(new String[]{Manifest.permission.CALL_PHONE}, 1000);
+                                    }
+                                }
+                            })
+                            .setNegativeButton("아니요", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    //Toast.makeText(mainActivity, "기능 취소", Toast.LENGTH_SHORT).show();
+                                }
+                            }).create().show();
+
+                } else {
+                    //권한을 거부한 적이 없음
+                    Log.d(TAG, "권한 요청");
+                    defaultAct.defaultAct.requestPermissions(new String[]{Manifest.permission.CALL_PHONE}, 1000);
+                }
+            } else {
+                //권한 있음
+                Log.d(TAG, "전화걸기 시작");
+                Intent intent = new Intent(Intent.ACTION_CALL);
+                intent.setData(Uri.parse("tel:" + phoneNumber));
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+            }
+        } else {
+            //마쉬멜로 이전버젼
+            Log.d(TAG, "전화걸기 시작");
+            Intent intent = new Intent(Intent.ACTION_CALL);
+            intent.setData(Uri.parse("tel:" + phoneNumber));
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        }
+    }
+
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        Log.d(TAG, "권한 요청 결과");
+        if (requestCode == 1000) {
+            //grantResults[0] = -1;
+            Log.d(TAG, Integer.toString(grantResults.length));
+            Log.d(TAG, Integer.toString(grantResults[0]));
+            Log.d(TAG, Integer.toString(PackageManager.PERMISSION_GRANTED));
+            Log.d(TAG, Boolean.toString(grantResults[0] == PackageManager.PERMISSION_GRANTED));
+            Log.d(TAG, Boolean.toString(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED));
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
+                    //    ActivityCompat#requestPermissions
+                    // here to request the missing permissions, and then overriding
+                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                    //                                          int[] grantResults)
+                    // to handle the case where the user grants the permission. See the documentation
+                    // for ActivityCompat#requestPermissions for more details.
+                    Log.d(TAG, "권한요청 완료");
+                    Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:010-9123-1709"));
+                    startActivity(intent);
+                }
+
+            } else {
+                Log.d(TAG, "권한요청 거부");
+            }
+        }
     }
 }
 

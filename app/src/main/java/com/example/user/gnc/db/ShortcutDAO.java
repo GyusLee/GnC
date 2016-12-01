@@ -25,4 +25,14 @@ public class ShortcutDAO extends SQLiteOpenHelper{
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         Log.d(TAG, "shortcut 테이블 호출");
     }
+
+    public void insert(){
+        SQLiteDatabase db = getWritableDatabase();
+        db.execSQL("insert into shortcut ( short_cut) values (1)");
+        db.execSQL("insert into shortcut ( short_cut) values (2)");
+        db.execSQL("insert into shortcut ( short_cut) values (3)");
+        db.execSQL("insert into shortcut ( short_cut) values (4)");
+        db.execSQL("insert into shortcut ( short_cut) values (5)");
+        db.close();
+    }
 }

@@ -29,16 +29,12 @@ public class ImageDAO extends SQLiteOpenHelper{
         Log.d(TAG, "image_info 테이블 호출");
     }
 
-    public void insert(Image image){
+    public void insert(){
 
         SQLiteDatabase db = getWritableDatabase();
-
-        int x = image.getX();
-        int y = image.getY();
-        int size = image.getSize();
-        String path = image.getPath();
         Log.d(TAG, "imageDAO insert 실행");
-        db.execSQL("insert into image_info (x, y, size, path) values ("+x+", "+y+", "+size+", '"+path+"')");
+        db.execSQL("insert into image_info (x, y, size, path) values (0, 0, 0, '')");
+        db.close();
         Log.d(TAG, "imageDAO insert 종료");
 
     }

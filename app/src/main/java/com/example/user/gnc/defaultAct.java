@@ -1,11 +1,17 @@
 package com.example.user.gnc;
 
+import android.Manifest;
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -21,13 +27,14 @@ public class defaultAct extends Activity {
     static final int WINDOW_ALERT_REQUEST = 1;
     public static ImageDAO imageDAO;
     public static ShortcutDAO shortcutDAO;
+    public static defaultAct defaultAct;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         TAG = this.getClass().getName();
-
+        defaultAct = this;
         imageDAO = new ImageDAO(this, "image_info.db", null, 1);
         shortcutDAO = new ShortcutDAO(this, "shortcut.db", null, 1);
 
@@ -42,7 +49,7 @@ public class defaultAct extends Activity {
             } else {
                 startService(new Intent(this, StartActivity.class));
             }
-        }else{
+        } else {
             startService(new Intent(this, StartActivity.class));
         }
     }
