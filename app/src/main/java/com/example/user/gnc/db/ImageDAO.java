@@ -22,14 +22,11 @@ public class ImageDAO extends SQLiteOpenHelper{
     public void onCreate(SQLiteDatabase db) {
         Log.d(TAG, "image_info 테이블 생성");
         db.execSQL("create table image_info (x int, y int, size int, path varchar(200));");
-        insert();//풀 후 첫 포팅 후 삭제
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         Log.d(TAG, "image_info 테이블 호출");
-        db.execSQL("drop table image_info");//풀 후 첫 포팅 후 삭제
-        onCreate(db);//풀 후 첫 포팅 후 삭제
     }
 
     public void insert(){
