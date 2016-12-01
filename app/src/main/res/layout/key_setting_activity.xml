@@ -61,12 +61,13 @@
                 android:src="@mipmap/ic_launcher" />
 
             <TextView
+                android:id="@+id/txt_doubleClick"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginRight="50dp"
                 android:layout_weight="2"
                 android:gravity="center"
-                android:text="전화 걸기"
+                android:text="추가 하기"
                 android:textAlignment="center" />
         </LinearLayout>
 
@@ -102,12 +103,13 @@
                 android:src="@mipmap/ic_launcher" />
 
             <TextView
+                android:id="@+id/txt_top"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginRight="50dp"
                 android:layout_weight="2"
                 android:gravity="center"
-                android:text="전화 걸기"
+                android:text="추가 하기"
                 android:textAlignment="center" />
         </LinearLayout>
 
@@ -143,12 +145,13 @@
                 android:src="@mipmap/ic_launcher" />
 
             <TextView
+                android:id="@+id/txt_bottom"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginRight="50dp"
                 android:layout_weight="2"
                 android:gravity="center"
-                android:text="전화 걸기"
+                android:text="추가 하기"
                 android:textAlignment="center" />
         </LinearLayout>
 
@@ -184,12 +187,13 @@
                 android:src="@mipmap/ic_launcher" />
 
             <TextView
+                android:id="@+id/txt_left"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginRight="50dp"
                 android:layout_weight="2"
                 android:gravity="center"
-                android:text="전화 걸기"
+                android:text="추가 하기"
                 android:textAlignment="center" />
         </LinearLayout>
 
@@ -225,12 +229,13 @@
                 android:src="@mipmap/ic_launcher" />
 
             <TextView
+                android:id="@+id/txt_right"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginRight="50dp"
                 android:layout_weight="2"
                 android:gravity="center"
-                android:text="전화 걸기"
+                android:text="추가 하기"
                 android:textAlignment="center" />
         </LinearLayout>
 
