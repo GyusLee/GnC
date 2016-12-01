@@ -27,13 +27,14 @@ public class defaultAct extends Activity {
     static final int WINDOW_ALERT_REQUEST = 1;
     public static ImageDAO imageDAO;
     public static ShortcutDAO shortcutDAO;
+    public static defaultAct defaultAct;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         TAG = this.getClass().getName();
-
+        defaultAct = this;
         imageDAO = new ImageDAO(this, "image_info.db", null, 1);
         shortcutDAO = new ShortcutDAO(this, "shortcut.db", null, 1);
 
