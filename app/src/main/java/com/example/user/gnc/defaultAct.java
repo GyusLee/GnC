@@ -1,13 +1,20 @@
 package com.example.user.gnc;
 
+import android.Manifest;
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.user.gnc.com.example.user.gnc.settings.MyDB;
 import com.example.user.gnc.db.ImageDAO;
@@ -18,6 +25,10 @@ import com.example.user.gnc.db.ShortcutDAO;
  */
 
 public class defaultAct extends Activity {
+    private static final int WINDOW_ALERT_REQUEST = 1;
+    private static final int REQUEST_ACCESS_CONTACTS = 2;
+    private static final int REQUEST_ACCESS_CALL = 3;
+
     String TAG;
     static final int WINDOW_ALERT_REQUEST = 1;
     public static ImageDAO imageDAO;
@@ -34,12 +45,13 @@ public class defaultAct extends Activity {
         TAG = this.getClass().getName();
         defaultAct = this;
         imageDAO = new ImageDAO(this, "image_info.db", null, 1);
-        shortcutDAO = new ShortcutDAO(this, "shorstcut.db", null, 1);
+        shortcutDAO = new ShortcutDAO(this, "shortcut.db", null, 1);
 
         //권한 주기
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             boolean floatingWindowPermission = Settings.canDrawOverlays(this);
             Log.d(TAG, floatingWindowPermission + "permission");
+            checkAccessPermission();
 
             if (floatingWindowPermission == false) {
                 Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + getPackageName()));
@@ -68,4 +80,16 @@ public class defaultAct extends Activity {
 
 
 
+
+    public void checkAccessPermission() {
+        int accessPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS);
+        int accessCall=ContextCompat.checkSelfPermission(this,Manifest.permission.CALL_PHONE);
+        if (accessPermission == PackageManager.PERMISSION_DENIED||accessCall==PackageManager.PERMISSION_DENIED) {
+            //유저에게 권한 줄것을 요청
+            ActivityCompat.requestPermissions(this, new String[]{
+                    Manifest.permission.READ_CONTACTS,
+                    Manifest.permission.CALL_PHONE
+            }, REQUEST_ACCESS_CONTACTS);
+        }
+    }
 }

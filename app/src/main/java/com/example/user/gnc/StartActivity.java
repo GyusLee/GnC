@@ -651,68 +651,10 @@ public class StartActivity extends Service {
 
     /*전화 permission*/
     public void callPhone(String phoneNumber) {
-        Log.d(TAG, "전화걸기 시작");
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            //권한 체크
-            int permissionResult = checkSelfPermission(Manifest.permission.CALL_PHONE);
-            if (permissionResult == PackageManager.PERMISSION_DENIED) {
-                //권한이 없다면
-                if (defaultAct.defaultAct.shouldShowRequestPermissionRationale(Manifest.permission.CALL_PHONE)) {
-                    //권한을 한번이라도 거부한 적이 있는지 검사
-                    //있다면 트루 없다면 폴스
-                    AlertDialog.Builder dialog = new AlertDialog.Builder(defaultAct.defaultAct);
-                    dialog.setTitle("전화 걸기 권한 요청")
-                            .setMessage("전화를 걸기위한 권한이 필요합니다.")
-                            .setPositiveButton("승인", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                                        defaultAct.defaultAct.requestPermissions(new String[]{Manifest.permission.CALL_PHONE}, 1000);
-                                    }
-                                }
-                            })
-                            .setNegativeButton("아니요", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    //Toast.makeText(mainActivity, "기능 취소", Toast.LENGTH_SHORT).show();
-                                }
-                            }).create().show();
-
-                } else {
-                    //권한을 거부한 적이 없음
-                    defaultAct.defaultAct.requestPermissions(new String[]{Manifest.permission.CALL_PHONE}, 1000);
-                }
-            } else {
-                //권한 있음
-                Intent intent = new Intent(Intent.ACTION_CALL);
-                intent.setData(Uri.parse("tel:" + phoneNumber));
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-            }
-        } else {
-            //마쉬멜로 이전버젼
-            Intent intent = new Intent(Intent.ACTION_CALL);
-            intent.setData(Uri.parse("tel:" + phoneNumber));
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
-        }
-    }
-
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        Log.d(TAG, "권한 요청 결과");
-        if (requestCode == 1000) {
-            //grantResults[0] = -1;
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
-
-                    Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:010-9123-1709"));
-                    startActivity(intent);
-                }
-            } else {
-                Log.d(TAG, "권한요청 거부");
-            }
-        }
+        Intent intent = new Intent(Intent.ACTION_CALL);
+        intent.setData(Uri.parse("tel:" + phoneNumber));
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 }
 

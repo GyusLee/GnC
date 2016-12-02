@@ -27,6 +27,7 @@ import static android.content.ContentValues.TAG;
 public class KeySettingActivity extends Activity {
     String number;
     String TAG;
+    String name, phoneNumber;
 
     private static final int REQUEST_SELECT_PHONE_NUMBER = 1;
     TextView txt_doubleClick,txt_right,txt_left,txt_bottom,txt_top;
@@ -105,7 +106,6 @@ public class KeySettingActivity extends Activity {
                     public void onClick(DialogInterface dialog,
                                         int id) {
 
-                        selectContact();
                         /*// AlertDialog 안에 있는 AlertDialog
                         String strName = adapter.getItem(id);
                         AlertDialog.Builder innBuilder = new AlertDialog.Builder(
@@ -123,8 +123,16 @@ public class KeySettingActivity extends Activity {
                                             }
                                         });
                         innBuilder.show();*/
+                        if (strName.equals("전화 걸기")) {
+                            selectContact();
+                        } else if (strName.equals("앱 실행")) {
+                            selectApp();
+                        } else if (strName.equals("웹 실행")) {
 
+                        }
 
+                        /*Log.d(TAG,"번호"+number);
+                        txt_doubleClick.setText(number);*/
                     }
                 });
         alertBuilder.show();
@@ -138,6 +146,11 @@ public class KeySettingActivity extends Activity {
         if (intent.resolveActivity(getPackageManager()) != null) {
             startActivityForResult(intent, REQUEST_SELECT_PHONE_NUMBER);
         }
+    }
+
+    public void selectApp() {
+        Intent intent = new Intent(this, AppListActivity.class);
+        startActivity(intent);
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -156,8 +169,6 @@ public class KeySettingActivity extends Activity {
                 // Do something with the phone number
                 Log.d(TAG,"number는?"+number);
                 txt_doubleClick.setText(number);
-                String sql = "update shortcut set path=?,method=1 where short_cut=1";
-                defaultAct.db.execSQL(sql,new String[]{number});
             }
         }
     }
