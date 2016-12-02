@@ -35,6 +35,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.user.gnc.R;
+import com.example.user.gnc.defaultAct;
 
 public class AppListActivity extends Activity {
     private static final String TAG = AppListActivity.class.getSimpleName();
@@ -285,9 +286,8 @@ public class AppListActivity extends Activity {
         String data = item.toString();
         switch (item.getItemId()) {
             case ONE:
-               /* //디비에 넣어야되
-                ShortcutDAO dao = new ShortcutDAO(this, "short.db", null, 1);
-                dao.update(1, pkg, SELECT_APP);*/
+               //디비에 넣어야되
+                defaultAct.shortcutDAO.update(1, pkg, SELECT_APP);
                 break;
 
             case TWO:
