@@ -26,6 +26,7 @@
         <activity android:name=".com.example.user.gnc.settings.KeySettingActivity"/>
         <activity android:name=".com.example.user.gnc.settings.LocationSettingActivity"/>
         <activity android:name=".com.example.user.gnc.settings.SizeSettingActivity"/>
+        <activity android:name=".com.example.user.gnc.settings.AppListActivity"/>
     </application>
 
 </manifest>

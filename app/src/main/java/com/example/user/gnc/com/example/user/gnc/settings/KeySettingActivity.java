@@ -104,9 +104,8 @@ public class KeySettingActivity extends Activity {
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog,
                                         int id) {
-
-                        /*// AlertDialog 안에 있는 AlertDialog
                         String strName = adapter.getItem(id);
+                        /*// AlertDialog 안에 있는 AlertDialog
                         AlertDialog.Builder innBuilder = new AlertDialog.Builder(
                                 KeySettingActivity.this);
                         innBuilder.setMessage(strName);
@@ -122,7 +121,14 @@ public class KeySettingActivity extends Activity {
                                             }
                                         });
                         innBuilder.show();*/
-                        selectContact();
+                        if(strName.equals("전화 걸기")){
+                            selectContact();
+                        }else if(strName.equals("앱 실행")){
+                            selectApp();
+                        }else if(strName.equals("웹 실행")){
+
+                        }
+
                         /*Log.d(TAG,"번호"+number);
                         txt_doubleClick.setText(number);*/
                     }
@@ -138,6 +144,11 @@ public class KeySettingActivity extends Activity {
         if (intent.resolveActivity(getPackageManager()) != null) {
             startActivityForResult(intent, REQUEST_SELECT_PHONE_NUMBER);
         }
+    }
+
+    public void selectApp(){
+        Intent intent = new Intent(this, AppListActivity.class);
+        startActivity(intent);
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
