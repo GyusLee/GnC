@@ -26,6 +26,7 @@ import static android.content.ContentValues.TAG;
 public class KeySettingActivity extends Activity {
     String number;
     String TAG;
+    String name,phoneNumber;
 
     private static final int REQUEST_SELECT_PHONE_NUMBER = 1;
     TextView txt_doubleClick,txt_right,txt_left,txt_bottom,txt_top;
@@ -146,7 +147,7 @@ public class KeySettingActivity extends Activity {
             String[] projection = new String[]{
                     ContactsContract.CommonDataKinds.Phone.NUMBER
             };
-            Cursor cursor = getContentResolver().query(contactUri, projection,
+            /*Cursor cursor = getContentResolver().query(contactUri, projection,
                     null, null, null);
             // If the cursor returned is valid, get the phone number
             if (cursor != null && cursor.moveToFirst()) {
@@ -154,8 +155,23 @@ public class KeySettingActivity extends Activity {
                 number = cursor.getString(numberIndex);
                 // Do something with the phone number
                 Log.d(TAG,"number는?"+number);
-                txt_doubleClick.setText(number);
+                txt_doubleClick.setText(number);*/
+            Cursor c = getContentResolver().query(
+                    ContactsContract.CommonDataKinds.Phone.CONTENT_URI,  // 조회할 컬럼명
+                    null, // 조회할 컬럼명
+                    null, // 조건 절
+                    null, // 조건절의 파라미터
+                    null);// 정렬 방향
+
+            c.moveToFirst(); // 커서를 처음위치로 이동시킴
+            do {
+                name = c.getString
+                        (c.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
+                phoneNumber = c.getString
+                        (c.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+            } while (c.moveToNext());
+            Log.d(TAG,"이름은?"+name+"번호는"+phoneNumber);
+            txt_doubleClick.setText(name+"  "+phoneNumber);
             }
         }
     }
-}
