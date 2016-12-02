@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -30,7 +31,6 @@ public class defaultAct extends Activity {
     private static final int REQUEST_ACCESS_CALL = 3;
 
     String TAG;
-    static final int WINDOW_ALERT_REQUEST = 1;
     public static ImageDAO imageDAO;
     public static ShortcutDAO shortcutDAO;
     public static defaultAct defaultAct;

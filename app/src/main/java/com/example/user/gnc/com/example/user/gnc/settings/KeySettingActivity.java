@@ -123,6 +123,7 @@ public class KeySettingActivity extends Activity {
                                             }
                                         });
                         innBuilder.show();*/
+                        String strName = adapter.getItem(id);
                         if (strName.equals("전화 걸기")) {
                             selectContact();
                         } else if (strName.equals("앱 실행")) {
