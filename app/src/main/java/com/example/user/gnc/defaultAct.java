@@ -1,20 +1,15 @@
 package com.example.user.gnc;
 
-import android.Manifest;
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AlertDialog;
 import android.util.Log;
-import android.widget.Toast;
 
+import com.example.user.gnc.com.example.user.gnc.settings.MyDB;
 import com.example.user.gnc.db.ImageDAO;
 import com.example.user.gnc.db.ShortcutDAO;
 
@@ -28,15 +23,18 @@ public class defaultAct extends Activity {
     public static ImageDAO imageDAO;
     public static ShortcutDAO shortcutDAO;
     public static defaultAct defaultAct;
+    MyDB myDB;
+    public static SQLiteDatabase db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        init();
 
         TAG = this.getClass().getName();
         defaultAct = this;
         imageDAO = new ImageDAO(this, "image_info.db", null, 1);
-        shortcutDAO = new ShortcutDAO(this, "shortcut.db", null, 1);
+        shortcutDAO = new ShortcutDAO(this, "shorstcut.db", null, 1);
 
         //권한 주기
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -62,4 +60,12 @@ public class defaultAct extends Activity {
                 }
         }
     }
+
+    public void init(){
+        myDB = new MyDB(this,"iot.sqlite",null,1);
+        db =myDB.getWritableDatabase();
+    }
+
+
+
 }

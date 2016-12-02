@@ -15,6 +15,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.example.user.gnc.R;
+import com.example.user.gnc.defaultAct;
 
 import static android.R.attr.name;
 import static android.content.ContentValues.TAG;
@@ -104,6 +105,7 @@ public class KeySettingActivity extends Activity {
                     public void onClick(DialogInterface dialog,
                                         int id) {
 
+                        selectContact();
                         /*// AlertDialog 안에 있는 AlertDialog
                         String strName = adapter.getItem(id);
                         AlertDialog.Builder innBuilder = new AlertDialog.Builder(
@@ -121,9 +123,8 @@ public class KeySettingActivity extends Activity {
                                             }
                                         });
                         innBuilder.show();*/
-                        selectContact();
-                        /*Log.d(TAG,"번호"+number);
-                        txt_doubleClick.setText(number);*/
+
+
                     }
                 });
         alertBuilder.show();
@@ -155,6 +156,8 @@ public class KeySettingActivity extends Activity {
                 // Do something with the phone number
                 Log.d(TAG,"number는?"+number);
                 txt_doubleClick.setText(number);
+                String sql = "update shortcut set path=?,method=1 where short_cut=1";
+                defaultAct.db.execSQL(sql,new String[]{number});
             }
         }
     }

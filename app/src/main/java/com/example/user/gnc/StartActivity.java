@@ -6,6 +6,7 @@ import android.app.Service;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -347,7 +348,14 @@ public class StartActivity extends Service {
                 @Override
                 public boolean onDoubleTap(MotionEvent e) {
                     Toast.makeText(StartActivity.this, "더블클릭", Toast.LENGTH_SHORT).show();
-                    callPhone("010-9123-1709");
+
+                    String sql = "select * from shortcut where short_cut=1";
+                    Cursor rs =defaultAct.db.rawQuery(sql,null);
+                    while(rs.moveToNext()){
+                        String number=rs.getString(rs.getColumnIndex("path"));
+                        Toast.makeText(StartActivity.this, number, Toast.LENGTH_SHORT).show();
+                        callPhone(number);
+                    }
                     return super.onDoubleTap(e);
                 }
 
@@ -607,6 +615,7 @@ public class StartActivity extends Service {
                                 //Log.d(TAG,"끝");
                                 if(gestureResult.equals("왼쪽")){
                                     Toast.makeText(StartActivity.this, "왼쪽", Toast.LENGTH_SHORT).show();
+
                                 }else if(gestureResult.equals("오른쪽")){
                                     Toast.makeText(StartActivity.this, "오른쪽", Toast.LENGTH_SHORT).show();
                                 }else if(gestureResult.equals("아래쪽")){

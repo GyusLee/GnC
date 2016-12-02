@@ -18,25 +18,14 @@ public class MyDB extends SQLiteOpenHelper{
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        Log.d(TAG,"onCreate호출");
-        //전화 정보 테이블
-        StringBuffer sql=new StringBuffer();
-        sql.append("create table cal(");
-        sql.append("key_id integer primary key,");
-        sql.append("key_name varchar(20),");
-        sql.append("phone varchar(20)");
-        sql.append(");");
-
-        sqLiteDatabase.execSQL(sql.toString());
-        Log.d(TAG,"전화 데이터베이스 생성");
-
-        //앱 실행 정보 테이블
-
-        //웹 실행 정보 테이블
-
-        //이미지 변경 정보 테이블
-
-        //초기위치 정보 테이블
+        Log.d(TAG,"onCreate 호출");
+        /*어플리케이션에 필요한 테이블이 있으면 테이블은 이 시점에 구축하자.*/
+        sqLiteDatabase.execSQL("create table shortcut(short_cut int, path varchar(200), method int);");
+        sqLiteDatabase.execSQL("insert into shortcut ( short_cut) values (1)");
+        sqLiteDatabase.execSQL("insert into shortcut ( short_cut) values (2)");
+        sqLiteDatabase.execSQL("insert into shortcut ( short_cut) values (3)");
+        sqLiteDatabase.execSQL("insert into shortcut ( short_cut) values (4)");
+        sqLiteDatabase.execSQL("insert into shortcut ( short_cut) values (5)");
     }
 
     @Override
