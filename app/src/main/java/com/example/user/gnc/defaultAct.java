@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.widget.Toast;
@@ -23,8 +24,11 @@ import com.example.user.gnc.db.ShortcutDAO;
  */
 
 public class defaultAct extends Activity {
+    private static final int WINDOW_ALERT_REQUEST = 1;
+    private static final int REQUEST_ACCESS_CONTACTS = 2;
+    private static final int REQUEST_ACCESS_CALL = 3;
+
     String TAG;
-    static final int WINDOW_ALERT_REQUEST = 1;
     public static ImageDAO imageDAO;
     public static ShortcutDAO shortcutDAO;
     public static defaultAct defaultAct;
@@ -42,6 +46,7 @@ public class defaultAct extends Activity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             boolean floatingWindowPermission = Settings.canDrawOverlays(this);
             Log.d(TAG, floatingWindowPermission + "permission");
+            checkAccessPermission();
 
             if (floatingWindowPermission == false) {
                 Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + getPackageName()));
@@ -60,6 +65,18 @@ public class defaultAct extends Activity {
             case WINDOW_ALERT_REQUEST:
                 if (resultCode == RESULT_CANCELED) {
                 }
+        }
+    }
+
+    public void checkAccessPermission() {
+        int accessPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS);
+        int accessCall=ContextCompat.checkSelfPermission(this,Manifest.permission.CALL_PHONE);
+        if (accessPermission == PackageManager.PERMISSION_DENIED||accessCall==PackageManager.PERMISSION_DENIED) {
+            //유저에게 권한 줄것을 요청
+            ActivityCompat.requestPermissions(this, new String[]{
+                    Manifest.permission.READ_CONTACTS,
+                    Manifest.permission.CALL_PHONE
+            }, REQUEST_ACCESS_CONTACTS);
         }
     }
 }
