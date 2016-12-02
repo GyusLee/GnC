@@ -170,6 +170,7 @@ public class KeySettingActivity extends Activity {
                 // Do something with the phone number
                 Log.d(TAG,"number는?"+number);
                 txt_doubleClick.setText(number);
+
                 String sql="update shortcut set path=?, method=1 where short_cut=1";
                 defaultAct.db.execSQL(sql,new String[]{
                         number
