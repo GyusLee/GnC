@@ -159,21 +159,26 @@ public class KeySettingActivity extends Activity {
             // Get the URI and query the content provider for the phone number
             Uri contactUri = data.getData();
             String[] projection = new String[]{
-                    ContactsContract.CommonDataKinds.Phone.NUMBER
+                    ContactsContract.CommonDataKinds.Phone.NUMBER,
+                    ContactsContract.Contacts.DISPLAY_NAME
             };
             Cursor cursor = getContentResolver().query(contactUri, projection,
                     null, null, null);
             // If the cursor returned is valid, get the phone number
             if (cursor != null && cursor.moveToFirst()) {
                 int numberIndex = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
+                int nameIndex = cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME);
+
                 number = cursor.getString(numberIndex);
+                name = cursor.getString(nameIndex);
+
                 // Do something with the phone number
-                Log.d(TAG,"number는?"+number);
+                Log.d(TAG,"number는?"+number+"name"+name);
                 txt_doubleClick.setText(number);
 
                 String sql="update shortcut set path=?, method=1 where short_cut=1";
                 defaultAct.db.execSQL(sql,new String[]{
-                        number
+                        number, name
                 });
             }
         }
