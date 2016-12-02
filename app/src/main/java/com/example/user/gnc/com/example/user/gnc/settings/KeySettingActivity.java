@@ -57,8 +57,6 @@ public class KeySettingActivity extends Activity {
                 showDialog();
             }
         });
-
-
     }
     public void showDialog(){
         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(
