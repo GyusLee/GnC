@@ -7,6 +7,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -41,10 +43,15 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+
 public class StartActivity extends Service {
 
     String gestureResult = "";
     private LinearLayout li;
+    Bitmap bitmap;
 
 
     private LinearLayout bli;
@@ -151,6 +158,8 @@ public class StartActivity extends Service {
 
         final RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
 
+
+
         layout.setBackgroundColor(Color.argb(100, 255, 0, 0));
 
         layoutParams.setMargins(0, 20, 0, 0);
@@ -187,7 +196,29 @@ public class StartActivity extends Service {
         parameters.y = initialPosY;
         parameters.alpha=0f;
         final HeroIcon heroIcon = new HeroIcon(this, parameters.x, parameters.y, icon_width, icon_height);
-        heroIcon.setBackgroundResource(R.drawable.logo2);
+        if (SettingActivity.name != null) {
+             /*  SettingActivity에서 넘겨준 이미지 경로값 넘겨받아 비트맵으로 변환*/
+            SettingActivity.name = (String) intent.getExtras().get("data");
+            Log.d(TAG, "name " + SettingActivity.name);
+            File dest = new File(SettingActivity.name);
+            Log.d(TAG, "dest" + dest);
+            FileInputStream fis = null;
+            try {
+                fis = new FileInputStream(dest);
+                Log.d(TAG, "Fis샘성됨" + fis);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+                Log.d(TAG, "안됨");
+            }
+
+            bitmap = BitmapFactory.decodeStream(fis);
+            heroIcon.setImageBitmap(bitmap);
+            heroIcon.setSelected(true);
+
+        } else {
+            heroIcon.setImageResource(R.drawable.logo2);
+            Log.d(TAG, "else문으로 넘어간다");
+        }
         windowManager.addView(heroIcon, parameters);
 
         //windowManager.addView(layout_start, params2);
